@@ -30,10 +30,32 @@ function loadPlayerData() {
                 console.log(match);
                 var champion = champions[match.championId];
                 //The Elophant API is fucking stupid so we need to do this
-                won = false;
+                var won = false;
+                var deaths = 0;
+                var kills = 0;
+                var assists = 0;
                 for(y = 0; y<match.statistics.length; y++) {
-                    if(match.statistics[y].statType == "WIN") {
+                    /*if(match.statistics[y].statType == "WIN") {
                         won = true;
+                    }*/
+                    stat = match.statistics[y];
+                    switch(stat.statType) {
+                        case "WIN": {
+                            won = true;
+                        }
+                        break;
+                        case "NUM_DEATHS": {
+                            deaths = stat.value;
+                        }
+                        break;
+                        case "CHAMPIONS_KILLED": {
+                            kills = stat.value;
+                        }
+                        break;
+                        case "ASSISTS": {
+                            assists = stat.value;
+                        }
+                        break;
                     }
                 }
                 console.log({champion: champion, win: won});
@@ -43,7 +65,7 @@ function loadPlayerData() {
                 else {
                     winClass = 'matchLoss';
                 }
-                htmlData.append("<div class='row-fluid "+winClass+"'><div class='span12'>"+champion+"</div></div>");
+                htmlData.append("<div class='row-fluid "+winClass+"'><div class='span1'><img src='http://img.lolking.net/shared/riot/images/champions/"+match.championId+"_92.png' /></div><div class='span11'>"+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+match.queueType+"</div></div>");
             }
         }, 'json');
     }
