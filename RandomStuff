@@ -1,0 +1,32 @@
+ $(function() {
+                var accountID;
+                var summonerID;
+                var icon;
+                var region;
+                var apiKey = 'ki6uyLMr3orPeoQKfhi2';
+
+                var data = localStorage.getItem('data');
+                console.log(data);
+                $('#data').html(data);
+                $('#go').click(function() {
+                    var summoner = $("[name='summoner']").val();
+                    console.log(summoner);
+                    region = $("[name='region'] :selected").val();
+
+                    var url = 'http://api.elophant.com/v2/'+region+'/summoner/'+summoner+'?key='+apiKey
+                    $.get(url, function(data) {
+                        console.log(data);
+                        accountID = data.data.acctId;
+                        summonerID = data.data.summonerId;
+                        icon = data.data.profileIconId;
+                        var url2='http://api.elophant.com/v2/'+region+'/recent_games/'+accountID+'/?key='+apiKey;
+                        $.get(url2, function(data) {
+                            console.log(data);
+                        }, 'json');
+                    }, 'json');
+                });
+
+                $('#save').click(function() {
+                    localStorage.setItem('data', $("[name='test']").val());
+                });
+            });
