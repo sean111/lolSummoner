@@ -30,3 +30,15 @@
                     localStorage.setItem('data', $("[name='test']").val());
                 });
             });
+
+
+
+            $(function() {
+            var summoner = localStorage.getItem('summoner');
+            var region = localStorage.getItem('region');
+            $('#save').click(function() {
+                var newSummoner = $("[name='summoner']").val();
+                var newRegion = $("[name='region'] :selected").val();
+                console.log({newSummoner: newSummoner, newRegion: newRegion});
+            });
+        });
