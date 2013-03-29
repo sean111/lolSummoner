@@ -25,6 +25,7 @@ function loadPlayerData() {
         console.log(url);
         $.get(url, function(data) {
             var htmlData = $('#data');
+            htmlData.html('');
             for(x = data.data.gameStatistics.length-1; x >= 0 ; x--) {
                 var match = data.data.gameStatistics[x];
                 console.log(match);
@@ -35,9 +36,6 @@ function loadPlayerData() {
                 var kills = 0;
                 var assists = 0;
                 for(y = 0; y<match.statistics.length; y++) {
-                    /*if(match.statistics[y].statType == "WIN") {
-                        won = true;
-                    }*/
                     stat = match.statistics[y];
                     switch(stat.statType) {
                         case "WIN": {
@@ -65,7 +63,20 @@ function loadPlayerData() {
                 else {
                     winClass = 'matchLoss';
                 }
-                htmlData.append("<div class='row-fluid "+winClass+"'><div class='span1'><img src='http://img.lolking.net/shared/riot/images/champions/"+match.championId+"_92.png' /></div><div class='span11'>"+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+match.queueType+"</div></div>");
+                var html = "<div class='row-fluid "+winClass+"'> \
+                                    <div class='span12'> \
+                                        <div class='media'> \
+                                            <img class='media-object pull-left' src='http://img.lolking.net/shared/riot/images/champions/"+match.championId+"_92.png' width='64px' height='64px'/> \
+                                            <div class='media-body'> \
+                                                <p> \
+                                                    "+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+match.queueType+" \
+                                                </p> \
+                                            </div> \
+                                        </div> \
+                                    </div> \
+                                    </div>";
+                //htmlData.append("<div class='row "+winClass+"'><div class='span1'><img src='http://img.lolking.net/shared/riot/images/champions/"+match.championId+"_92.png' width='64px' height='64px'/></div><div class='span11'>"+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+match.queueType+"</div></div>");
+                htmlData.append(html);
             }
         }, 'json');
     }
