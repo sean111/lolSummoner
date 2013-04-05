@@ -29,6 +29,7 @@ function loadPlayerData() {
             for(x = data.data.gameStatistics.length-1; x >= 0 ; x--) {
                 var match = data.data.gameStatistics[x];
                 console.log(match);
+                //If champion is not in the array need to re-fetch them, this is async so need to take that into account.
                 var champion = champions[match.championId];
                 //The Elophant API is fucking stupid so we need to do this
                 var won = false;
@@ -63,19 +64,41 @@ function loadPlayerData() {
                 else {
                     winClass = 'matchLoss';
                 }
+
+                //Match Types
+                var matchType  = null;
+                switch(match.queueType) {
+                    case "NORMAL": {
+                        matchType = 'Normal 5v5';
+                    }
+                    break;
+                    case "NORMAL_3x3": {
+                        matchType = 'Normal 3v3';
+                    }
+                    break;
+                    case "RANKED_SOLO_5x5": {
+                        matchType = 'Ranked Solo 5v5';
+                    }
+                    break;
+                    case "ODIN_UNRANKED": {
+                        matchType = "Dominion";
+                    }
+                    break;
+                    default: {
+                        matchType = match.queueType;
+                    }
+                    break;
+                }
                 var html = "<div class='row-fluid "+winClass+"'> \
                                     <div class='span12'> \
                                         <div class='media'> \
                                             <img class='media-object pull-left' src='http://img.lolking.net/shared/riot/images/champions/"+match.championId+"_92.png' width='64px' height='64px'/> \
                                             <div class='media-body'> \
-                                                <p> \
-                                                    "+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+match.queueType+" \
-                                                </p> \
+                                                    "+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+matchType+" \
                                             </div> \
                                         </div> \
                                     </div> \
                                     </div>";
-                //htmlData.append("<div class='row "+winClass+"'><div class='span1'><img src='http://img.lolking.net/shared/riot/images/champions/"+match.championId+"_92.png' width='64px' height='64px'/></div><div class='span11'>"+champion+"<br />"+kills+" / "+deaths+" / "+assists+"<br />"+match.queueType+"</div></div>");
                 htmlData.append(html);
             }
         }, 'json');
