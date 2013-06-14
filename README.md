@@ -1,7 +1,7 @@
 # About
 A small TideSDK based application that grabs summoner data from the Elophant API and uses images from LoLKing(Only during Beta).
 
-# Useage
+# Usage
 Click settings and enter your summoner name and select the region you play one. Click save then back to go to the main display. Your last ten games should now be displayed as long as the Elophant API is up and you enterered the correct information.
 
 # Downloads
